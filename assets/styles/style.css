@@ -84,6 +84,7 @@ textarea{
   background-color: var(--color-blue);
   color: var(--color-white);
   text-align: center;
+  cursor:pointer;
 }
 
 .saveBtn i:hover {
