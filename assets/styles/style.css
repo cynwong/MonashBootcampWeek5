@@ -83,6 +83,7 @@ textarea{
   border-bottom-right-radius: 15px;
   background-color: var(--color-blue);
   color: var(--color-white);
+  text-align: center;
 }
 
 .saveBtn i:hover {
@@ -91,7 +92,7 @@ textarea{
 }
 
 .saveBtn span {
-  text-align:center; 
-  font-size: xx-large;
-  margin-top: 1.2rem;
+  font-size: x-large;
+  margin-top: 1.5rem;
+  color: var(--color-grey);
 }
