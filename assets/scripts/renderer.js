@@ -42,10 +42,10 @@ class dayCalendarRenderer {
         this._currentDay.html(this.date.format("dddd, MMMM Do"));
     }
 
-    checkTime(time) {
+    getTimeClass(time) {
         let calendarDate = this.date.format("L");
         let currentDate = moment().format("L");
-
+        //TODO move this checking to code to calendar class 
         if(calendarDate.localeCompare(currentDate) === -1){
             //if calender current's day is in the past a.k.a older date
             // e.g a day before or a month before
@@ -65,7 +65,7 @@ class dayCalendarRenderer {
         }
     }
 
-    getDayHourDisplay(hour) {
+    renderHourlyDisplay(hour) {
         let row = $("<div />", { "class": "row" });
         // description column
         let currentStyle = "";
@@ -73,7 +73,7 @@ class dayCalendarRenderer {
             "class": "col-8 col-sm-10 description",
         });
         //Past/Present/Future classes. 
-        colDescription.addClass(this.checkTime(hour));
+        colDescription.addClass(this.getTimeClass(hour));
         colDescription.append($("<textarea>"));
 
         //hour column
@@ -107,7 +107,7 @@ class dayCalendarRenderer {
     renderDayView() {
         let hourContainer;
         for (let i = this._startHour; i <= this._endHour; i++) {
-            this._container.append(this.getDayHourDisplay(i));
+            this._container.append(this.renderHourlyDisplay(i));
         }//TODO this is not rendering Check if this is being called. 
     }
 };
