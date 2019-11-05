@@ -1,4 +1,4 @@
-
+"use strict"
 
 $(document).ready(function(){
 
@@ -14,9 +14,7 @@ $(document).ready(function(){
             //TODO this is not working, yet. so 
             // if same day, re-render the page every hours
             console.log("refresh until: ", currentMoment.getTimeLeft);
-            // setTimeout(this.resetDisplay,this._calendar.getTimeLeft);
-             setTimeout(resetDisplay,1000);
-
+            setTimeout(this.resetDisplay,this._calendar.getTimeLeft);
         }
     }
     
