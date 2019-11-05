@@ -6,7 +6,7 @@ $(document).ready(function(){
     
 
     function resetPage(date=""){
-        if(!date){
+        if(date === ""){
             //if there is no date, use the current date. 
             calRenderer = new dayCalendarRenderer(new Calendar());
         }
