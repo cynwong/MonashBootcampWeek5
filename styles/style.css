@@ -1,0 +1,94 @@
+body {
+
+
+  --color-black: hsl(0deg, 0%, 5%);
+  --color-grey: hsl(0deg, 0%, 83%);
+  --color-white: hsl(0deg,0,98%);
+
+  --color-red: hsl(3deg, 100%,69%);
+  --color-green: hsl(120deg, 60%,67%);
+  --color-blue: hsl(191deg, 95%,43%);
+
+  font-family: 'Open Sans', sans-serif;
+  font-size: 16px;
+  line-height: 1;
+}
+
+textarea{
+  background: transparent;
+  border: none;
+  resize: none;
+  color: var(--color-black);
+  /* border-left: 1px solid var(--color-black); */
+  padding: 10px;
+  width: 100%;
+}
+
+.jumbotron {
+  text-align: center;
+  background-color: transparent;
+  color: var(--color-black);
+  border-radius: 0;
+  border-bottom: 10px solid var(--color-black);
+}
+
+.container-fluid {
+  margin-top: 25px;
+  margin-bottom:25px;
+}
+
+.description{
+  white-space: pre-wrap;
+}
+
+.time-block{
+  text-align: center;
+  border-radius: 15px;
+}
+
+.row {
+  white-space: pre-wrap;
+  height: 80px;
+  border-top: 1px solid var(--color-white);;
+}
+
+.hour {
+  background-color: var(--color-white);
+  color: var(--color-black);
+  border-top: 1px dashed var(--color-black);
+  text-align: right;
+}
+
+.past {
+  background-color: var(--color-grey);
+  color: var(--color-white);
+}
+
+.present {
+  background-color: var(--color-red);
+  color: var(--color-white);
+}
+
+.future {
+  background-color: var(--color-green);
+  color: var(--color-white);
+}
+
+.saveBtn {
+  border-left: 1px solid var(--color-black);
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: var(--color-blue);
+  color: var(--color-white);
+}
+
+.saveBtn i:hover {
+  font-size: 20px;
+  transition: all .3s ease-in-out;
+}
+
+.saveBtn span {
+  text-align:center; 
+  font-size: xx-large;
+  margin-top: 1.2rem;
+}
