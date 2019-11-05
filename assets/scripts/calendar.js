@@ -2,19 +2,19 @@
 class Calendar {
 
     constructor(date){
-        this.resetCalendarMoment(date);
+        this.resetCalendar(date);
         this._LOCAL_STORAGE_KEY = "events";
     }
 
     set date(date){
-        this.resetCalendarMoment(date);
+        this.resetCalendar(date);
     }
     /**
      * new date so create a new moment.  
      * date: string in the format of YYYY-MM-DD 
      *  e.g. 2019-11-22
      */
-    resetCalendarMoment(date =""){
+    resetCalendar(date =""){
         if(date && /^([0-9]{4}-[0-9]{2}-[0-9]{2})/.test(date)){
             //if there is date string
             //and it is in date pattern
