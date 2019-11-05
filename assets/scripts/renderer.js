@@ -23,18 +23,6 @@ class dayCalendarRenderer {
         this._DISPLAY_DATE_FORMAT = "dddd, MMMM Do";
     }
 
-    resetDisplay() {
-        this.displayDate();
-        this.renderDayView();
-
-        if(this._calendar.whenThisDate()===0){
-            //TODO this is not working, yet. so 
-            // if same day, re-render the page every hours
-            console.log("refresh until: ", this._calendar.getTimeLeft);
-            setTimeout(this.resetDisplay,this._calendar.getTimeLeft);
-        }
-    }
-
     get is12hTimeFormat() {
         return this._timeFormat.localeCompare("12h") === 0;
     }

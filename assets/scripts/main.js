@@ -4,10 +4,27 @@ $(document).ready(function(){
 
     let secondLeftToNextHour;
     let currentMoment = new Calendar();
-    let currentRenderer= new dayCalendarRenderer(currentMoment);
+    let renderer= new dayCalendarRenderer(currentMoment);
+    
+    function resetDisplay() {
+        renderer.displayDate();
+        renderer.renderDayView();
+
+        if(currentMoment.whenThisDate()===0 && moment().hour() > renderer._startHour && moment().hour() < renderer._endHour) {
+            //TODO this is not working, yet. so 
+            // if same day, re-render the page every hours
+            console.log("refresh until: ", currentMoment.getTimeLeft);
+            // setTimeout(this.resetDisplay,this._calendar.getTimeLeft);
+             setTimeout(resetDisplay,1000);
+
+        }
+    }
+    
     
     //init
-    currentRenderer.resetDisplay();
+    resetDisplay();
+
+
 
 
     // =====================
