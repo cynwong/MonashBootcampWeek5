@@ -6,6 +6,9 @@ $(document).ready(function(){
     let currentMoment = new Calendar();
     let renderer= new dayCalendarRenderer(currentMoment);
     
+    /**
+     * reset calendar view
+     */
     function resetDisplay() {
         renderer.displayDate();
         renderer.renderDayView();
@@ -14,16 +17,12 @@ $(document).ready(function(){
             //TODO this is not working, yet. so 
             // if same day, re-render the page every hours
             console.log("refresh until: ", currentMoment.getTimeLeft);
-            setTimeout(this.resetDisplay,this._calendar.getTimeLeft);
+            setTimeout(this.resetDisplay,currentMoment.getTimeLeft);
         }
     }
     
-    
     //init
     resetDisplay();
-
-
-
 
     // =====================
     //  Event Listeners
