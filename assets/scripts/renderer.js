@@ -21,13 +21,18 @@ class dayCalendarRenderer {
         this._CLASSNAME_PRESENT = "present";
         this._CLASSNAME_FUTURE = "future";
         this._DISPLAY_DATE_FORMAT = "dddd, MMMM Do";
-
-        this.resetDisplay();
     }
 
     resetDisplay() {
         this.displayDate();
         this.renderDayView();
+
+        if(this._calendar.whenThisDate()===0){
+            //TODO this is not working, yet. so 
+            // if same day, re-render the page every hours
+            console.log("refresh until: ", this._calendar.getTimeLeft);
+            setTimeout(this.resetDisplay,this._calendar.getTimeLeft);
+        }
     }
 
     get is12hTimeFormat() {
@@ -54,21 +59,21 @@ class dayCalendarRenderer {
     }
 
     renderHourlyDisplay(hour) {
-
         let timeClass = this.getTimeClass(hour);
-
+        let displayHour = hour;
         //check if we need fix and how to display the time. 
         let suffix = this.is12hTimeFormat ? this._SUFFIX_AM : "";
-        if (hour >= 12 && this.is12hTimeFormat) {
+        if (displayHour >= 12 && this.is12hTimeFormat) {
             //afternoon, time suffix needs to be changed. 
-            if (hour > 12) { hour -= 12; }
+            if (displayHour > 12) { displayHour -= 12; }
             suffix = this.is12hTimeFormat ? this._SUFFIX_PM : "";
         }
 
         return $("<div />", { "class": "row" }).append(
             $("<div />", {
                 "class": "col-2 col-sm-1 hour",
-                "text": hour+suffix,
+                "data-hour": hour,
+                "text": displayHour+suffix,
             }),
             $("<div />", {
                 "class": "col-8 col-sm-10 description " + timeClass,
