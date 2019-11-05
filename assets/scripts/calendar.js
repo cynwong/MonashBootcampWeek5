@@ -4,16 +4,28 @@ class Calendar {
     constructor(date="") {
         this.resetCalendar(date);
         this._LOCAL_STORAGE_KEY = "events";
+        this._DEFAULT_TIME_FORMAT = "L";
     }
 
+    // ==============
+    //  GET functions
+    // ==============
     get moment(){
         return this._moment;
     }
 
+    get events() {
+        return this._events;
+    }
+
+    // ==============
+    //  Other function
+    // ==============
+
     /**
-     * new date so create a new moment.  
-     * date: string in the format of YYYY-MM-DD 
-     *  e.g. 2019-11-22
+     *  if valid date is given, create moment with that date
+     *  Once moment is created, load related events
+     * @param {*} date 
      */
     resetCalendar(date = "") {
         let isValidDate = true;
@@ -31,6 +43,8 @@ class Calendar {
             }
             this._moment = moment();
         }
+        //load the events for this day. 
+        this.load();
     }
 
     /* 
@@ -76,45 +90,68 @@ class Calendar {
     }
     
 
-    // convertTimeToMillisecond(minute, second) {
-    //     return ((60 * minute) + second) * 1000;
-    // }
-    // get remainingSecondToNextHour() {
-    //     let minute = this._moment.format("mm");
-    //     let second = this._moment.format("ss");
-    // }
+    // calculate the remaining time to next hour 
+    // return time in millisecond
+    get getTimeLeft() {
+        const MILLISECOND_IN_AN_HOUR = 3600000;
+        //convert current minute, second and milliesecond to milliesecond
+        const current = (((this._moment.minute()* 60) + this._moment.second())*1000)+ this._moment.millisecond();
+        return MILLISECOND_IN_AN_HOUR - current;
+    }
 
-    get events() {
-        return this._events;
+    
+    // ===================
+    //  Storage functions
+    // =================== 
+    /**
+        localStorage events format
+            events = {
+                    "2019-11-01" : {
+                        time : 09,
+                        description : "My event description"
+                }
+     */
+    load() {
+        if (localStorage[this._LOCAL_STORAGE_KEY]) {
+            //if we have data
+            this._events = JSON.parse(localStorage[this._LOCAL_STORAGE_KEY]);
+            //now get this day's events
+            this._events = this._events[this._moment().format(this._DEFAULT_TIME_FORMAT)];
+        } else {
+            this._events = {};
+        }
+    }
+    save() {
+        localStorage.setItem(this._LOCAL_STORAGE_KEY, JSON.stringify(this._events));
     }
 
     /**
-     *  localStorage events format
-     *      events = {
-     *              "2019-11-01" : {
-                        time : 09,
-                        description : "My event description"
-     *          }
+     * Save the event to the events object and update local storage. 
+     * 
+     * @param {number} time 
+     * @param {string} description 
      */
-    // load() {
-    //     if (localStorage[this._LOCAL_STORAGE_KEY]) {
-    //         //if we have data
-    //         this._events = JSON.parse(localStorage[this._LOCAL_STORAGE_KEY]);
-    //         //now get this day's events
-    //         this._events = this._events[this._moment().format("L")];
-    //     } else {
-    //         this._events = {};
-    //     }
-    // }
-    // save() {
-    //     localStorage.setItem(this._LOCAL_STORAGE_KEY, JSON.stringify(this._events));
-    // }
+    saveEvent(time, description) {
+        if (typeof(time) === "string" && !isNaN(time)){
+            //if time is string and numeric try converting to integer
+            time = parseInt(time);
+        } else if(typeof(time)!== "number" || (time>=0 && time <= 23)){
+            // if time is not a number and numeric string
+            //throw error 
+            console.log("Error in storing event: invalid time value. Aborting the save...");
+            return false;
+        }
+        
+        let key = this._moment.format(this._DEFAULT_TIME_FORMAT);
 
-    // saveEvent(event) {
-
-
-    //     this.save();
-    // }
+        if(!(key in this._events)){
+            // if new event, create new object. 
+            this._events[key] = {};
+        }
+            this._events[key][`${time}`] = description;
+        
+        this.save();
+    }
 }
 
 

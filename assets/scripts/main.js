@@ -3,17 +3,21 @@
 $(document).ready(function(){
 
     let secondLeftToNextHour;
+    let currentMoment = new Calendar();
+    let currentRenderer= new dayCalendarRenderer(currentMoment);
     
-
-    function resetPage(date=""){
-        if(date === ""){
-            //if there is no date, use the current date. 
-            calRenderer = new dayCalendarRenderer(new Calendar());
-        }
-    }
-
     //init
-    resetPage();
+    currentRenderer.resetDisplay();
+
+
+    // =====================
+    //  Event Listeners
+    // =====================
+    $(".saveBtn").click( function(){
+        const hour = $(this).siblings(".hour").attr("data-hour");
+        const description = $(this).siblings(".description").children("textarea").val();
+        currentMoment.saveEvent(hour, description);
+    });
     
 
 });
