@@ -68,6 +68,8 @@ class dayCalendarRenderer {
             if (displayHour > 12) { displayHour -= 12; }
             suffix = this.is12hTimeFormat ? this._SUFFIX_PM : "";
         }
+        let description = "";
+        if(hour in this._calendar.events){ description = this._calendar.events[hour];}
 
         return $("<div />", { "class": "row" }).append(
             $("<div />", {
@@ -77,7 +79,7 @@ class dayCalendarRenderer {
             }),
             $("<div />", {
                 "class": "col-8 col-sm-10 description " + timeClass,
-            }).append($("<textarea>")),
+            }).append($("<textarea>", {"text": description})),
             $("<div />", {
                 "class": "col-2 col-sm-1 saveBtn",
                 "html": '<span class="fa fa-save"></span>',

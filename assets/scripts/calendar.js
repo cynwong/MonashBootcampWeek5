@@ -2,9 +2,10 @@
 class Calendar {
 
     constructor(date="") {
-        this.resetCalendar(date);
         this._LOCAL_STORAGE_KEY = "events";
         this._DEFAULT_TIME_FORMAT = "L";
+        
+        this.resetCalendar(date);
     }
 
     // ==============
@@ -112,11 +113,12 @@ class Calendar {
                 }
      */
     load() {
+        
         if (localStorage[this._LOCAL_STORAGE_KEY]) {
             //if we have data
             this._events = JSON.parse(localStorage[this._LOCAL_STORAGE_KEY]);
             //now get this day's events
-            this._events = this._events[this._moment().format(this._DEFAULT_TIME_FORMAT)];
+            this._events = this._events[this._moment.format(this._DEFAULT_TIME_FORMAT)];
         } else {
             this._events = {};
         }
