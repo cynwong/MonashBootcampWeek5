@@ -2,26 +2,36 @@
 
 $(document).ready(function(){
 
-    const currentMoment = new Calendar();
+    let currentMoment = new Calendar();
     const renderer= new DayViewRenderer(currentMoment);
     
     /**
      * reset calendar view
      */
     function resetDisplay() {
-        renderer.displayDate();
-        renderer.renderDayView();
+        const presentDescription = $(".present");
+        const nextDescription = presentDescription.parent().next(".row").children(".description");
+        
+        nextDescription.removeClass(renderer._CLASSNAME_FUTURE).addClass(renderer._CLASSNAME_PRESENT);
+        presentDescription.removeClass(renderer._CLASSNAME_PRESENT).addClass(renderer._CLASSNAME_PAST);
 
+        setNextTimer();
+    }
+
+    function setNextTimer (){
         if(currentMoment.whenThisDate()===0 && moment().hour() > renderer._startHour && moment().hour() < renderer._endHour) {
-            //TODO this is not working, yet. so 
+            //TODO see if this will change 
             // if same day, re-render the page every hours
+            currentMoment.resetCalendar();
             console.log("Next refresh in ", currentMoment.getTimeLeft);
             setTimeout(resetDisplay,currentMoment.getTimeLeft);
         }
     }
     
     //init
-    resetDisplay();
+    renderer.displayDate();
+    renderer.renderDayView();
+    setNextTimer();
 
     // =====================
     //  Event Listeners
