@@ -2,6 +2,10 @@
 // This class construct a moment instance and handle moment related data. 
 class Calendar {
 
+    /**
+     * 
+     * @param {string} date 
+     */
     constructor(date = "") {
         this._LOCAL_STORAGE_KEY = "events";
         this._DEFAULT_TIME_FORMAT = "L";
@@ -35,9 +39,9 @@ class Calendar {
     /**
      *  if valid date is given, create moment with that date
      *  Once moment is created, load related events
-     * @param {*} date 
+     * @param {string} date 
      */
-    resetCalendar(date = "") {
+    resetCalendar(date) {
         let isValidDate = true;
         if (date !== "") {
             isValidDate = moment(date).isValid();
