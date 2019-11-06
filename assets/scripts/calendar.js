@@ -11,14 +11,14 @@ class Calendar {
         this._DEFAULT_TIME_FORMAT = "L";
         this._MILLISECONDS_PER_HOUR = 3600000;
         this._events = {};
-        
+
         this.resetCalendar(date);
     }
 
     // ==============
     //  GET functions
     // ==============
-    
+
     /**
      * 
      * @param {string} format - moment.js format string
@@ -35,8 +35,17 @@ class Calendar {
         return this._events[this._EVENTS_KEY] ? this._events[this._EVENTS_KEY] : {};
     }
 
+    /**
+     * check if this moment is today
+     * @return {boolean} 
+     */
+    get isToday() {
+        return moment().isSame(this._moment, 'day');
+    }
+
+
     // ==============
-    //  Other function
+    //  Other functions
     // ==============
 
     /**
@@ -44,20 +53,15 @@ class Calendar {
      *  Once moment is created, load related events
      * @param {string} date 
      */
-    resetCalendar(date="") {
-        let isValidDate = true;
-        if (date !== "") {
-            isValidDate = moment(date).isValid();
-        }
-        if (date && isValidDate) {
-            //if there is date string and it is in valid moment.js's date string format
-            //then create that moment
-            this._moment = moment(date);
-        } else {
-            if (!isValidDate) {
-                //if not in valid date format. throw this message and set moment object with today date. 
+    resetCalendar(date = "") {
+        this._moment = moment(date);
+        if (!this._moment.isValid()) {
+            if (date !== "") {
+                //if date is not empty string then date is in valid date format. 
+                // so throw this message
                 console.log("Error in getting Calendar:", "Constructing calendar with today date");
             }
+            //set default moment, .i.e. now. 
             this._moment = moment();
         }
 
@@ -66,49 +70,55 @@ class Calendar {
         this.load();
     }
 
+    isValidDateString(date) {
+        return moment(date).isValid();
+    }
     /** 
     * check if this calendar date is for past, present or future date
-    * @returns {number}
-    *        negative number/ -1 for past date
+    * @returns {number} value -1, 0 or 1
+    *       -1 for past date
     *        0 for present date a.k.a Today
-    *       postive number/1 for future date
+    *        1 for future date
     */
-    whenThisDate() {
-        return this._moment.format("L").localeCompare(moment().format("L"));
+    checkStatus(date = "") {
+        if (this.isToday === true) {
+            //if today,
+            return 0;
+        } else if (this._moment.isBefore(moment()) === true) {
+            //past
+            return -1;
+        } else if (this._moment.isAfter(moment()) === true) {
+            //future
+            return 1;
+        }
     }
-
+    
     /** 
     * check if this calendar time is for past, present or future time
-    * @param {number/ numeric string} time
+    * @param {number} time expected value 0 to 23
     * @returns {number}
-    *        negative number for past time
+    *       -1 for past time
     *        0 for present time a.k.a now
-    *        positive number for future time
+    *        1 for future time
     */
-
-    whenThisTime(time = "") {
-        let isSameDay = this.whenThisDate();
-
+    checkStatusByTime(time = "") {
+        const isSameDay = this.checkStatus();
         if (isSameDay !== 0) {
-            // if not the same day return the result of date
+            //if not the same day, then return the result date. 
             return isSameDay;
         }
-        // is same day, check the time.
-        if (time === "") {
-            //if no time given, then check the calendar time
-            return this._moment.hour - moment().hour();
-        } else if (typeof (time) === "number" && Number.isInteger(time)) {
-            // if time data type is integer
-            return time - moment().hour();
-        } else if (typeof (time) === "string" && !isNaN(time)) {
-            time = parseInt(time);
-            return time - moment().hour();
-        } else {
-            console.log("Error in checking time: ", "Not a valid hour");
-            return false;
+        let givenTime = moment(time, "hour");
+        if(!givenTime.isValid()) {givenTime = moment();}
+        //if same day, check the time
+        if(this._moment.isSame(givenTime, "hour")){
+            return 0;
+        } else if(this._moment.isAfter(givenTime,"hour")){
+            // if past hour
+            return -1;
+        } else if (this._moment.isBefore(givenTime,"hour")){
+            return 1; 
         }
     }
-
 
     /** 
      * calculate the remaining time to next hour 
@@ -146,9 +156,9 @@ class Calendar {
      * update the local storage. 
      */
     save() {
-        if($.isEmptyObject(this._events)){
+        if ($.isEmptyObject(this._events)) {
             //if this._events is empty. delete the localStorage data as well
-            if(localStorage[this._LOCAL_STORAGE_KEY]){
+            if (localStorage[this._LOCAL_STORAGE_KEY]) {
                 localStorage.removeItem(this._LOCAL_STORAGE_KEY);
             }
             return;
@@ -173,22 +183,22 @@ class Calendar {
             return false;
         }
 
-        if ((time <= 0 || time >= 23)){
+        if ((time <= 0 || time >= 23)) {
             console.log("Error in storing event: invalid time value. Aborting the save...");
             return false;
         }
 
-        if(description === ""){
+        if (description === "") {
             //if description is empty string, delete this property
             delete this._events[this._EVENTS_KEY][`${time}`];
             //check if there is any data left for this date
             //if no data then delete the date as well
-            if($.isEmptyObject(this._events[this._EVENTS_KEY])){
+            if ($.isEmptyObject(this._events[this._EVENTS_KEY])) {
                 delete this._events[this._EVENTS_KEY];
             }
         } else {
             //if there is a description, save it.
-            if(!this._events[this._EVENTS_KEY]){
+            if (!this._events[this._EVENTS_KEY]) {
                 this._events[this._EVENTS_KEY] = {};
             }
             this._events[this._EVENTS_KEY][`${time}`] = description;
@@ -209,13 +219,8 @@ class Calendar {
 
     when user click in the description area, they are allowed to type the description
     1. save to localStorage for now.
-        1. when user leave the textarea .focusout
-        2. when user press enter
         3. when user click save button.
 
     when user change the date/ start with today date
     1. load the day's contents.
-
-
-
 */

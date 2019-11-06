@@ -36,7 +36,7 @@ class DayViewRenderer {
      * @param {number| string} time 
      */ 
     getTimeClass(time) {
-        let checkTime = this._calendar.whenThisTime(time);
+        let checkTime = this._calendar.checkStatusByTime(time);
         if (checkTime < 0) {
             //if negative number, then it is in the past
             return this._CLASSNAME_PAST;
