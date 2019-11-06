@@ -56,7 +56,7 @@ class DayViewRenderer {
      * @return {object} jQuery DOM object 
      */
     renderHourlyDisplay(hour) {
-        let timeClass = this.getTimeClass(hour);
+        const timeClass = this.getTimeClass(hour);
         let displayHour = hour;
         //check if we need fix and how to display the time. 
         let suffix = this._is12hTimeFormat === true ? this._SUFFIX_AM : "";
