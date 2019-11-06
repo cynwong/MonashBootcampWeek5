@@ -27,6 +27,9 @@ Past | Grey
 Present | Red
 Future | Green
 
-To enter an event, click on relevant time slot and type the description. Once done, click on the save button next to it. 
+To enter an event, click on relevant time slot and type the description. Once done, user can save the event by:
 
-To delete an event, delete the text description and click save button on the right. 
+    1. clicking on the save button next to it.
+    2. pressing key combination ⌘ + s or ctrl + s.
+
+To delete an event, delete the text description and click save button on the right.
