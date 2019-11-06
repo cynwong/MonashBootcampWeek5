@@ -2,7 +2,6 @@
 
 $(document).ready(function(){
 
-    let secondLeftToNextHour;
     let currentMoment = new Calendar();
     let renderer= new DayViewRenderer(currentMoment);
     
