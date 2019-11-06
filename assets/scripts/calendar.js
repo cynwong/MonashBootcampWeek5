@@ -9,6 +9,7 @@ class Calendar {
     constructor(date = "") {
         this._LOCAL_STORAGE_KEY = "events";
         this._DEFAULT_TIME_FORMAT = "L";
+        this._MILLISECONDS_PER_HOUR = 3600000;
 
         this.resetCalendar(date);
     }
@@ -110,10 +111,9 @@ class Calendar {
      * @returns {number} time in millisecond
      */
     get getTimeLeft() {
-        const MILLISECONDS_PER_HOUR = 3600000;
         //convert current minute, second and milliesecond to milliesecond
         const current = (((this._moment.minute() * 60) + this._moment.second()) * 1000) + this._moment.millisecond();
-        return MILLISECONDS_PER_HOUR - current;
+        return this._MILLISECONDS_PER_HOUR - current;
     }
 
 
