@@ -33,15 +33,33 @@ $(document).ready(function(){
     renderer.renderDayView();
     setNextTimer();
 
+    function saveEvent(element){
+        const hour = element.siblings(".hour").attr("data-hour");
+        let description;
+        if(element.hasClass("description")){
+            //if element is description box
+            description = element.children("textarea").val();
+        }else {
+            //if element is save button
+            description = element.siblings(".description").children("textarea").val();
+        }
+        
+        currentMoment.saveEvent(hour, description);
+    }
     // =====================
     //  Event Listeners
     // =====================
     $(".saveBtn").click( function(){
-        const hour = $(this).siblings(".hour").attr("data-hour");
-        const description = $(this).siblings(".description").children("textarea").val();
-        currentMoment.saveEvent(hour, description);
+        saveEvent($(this));
     });
     
+    $(".description").keydown(function(event){
+        // command key + s or ctrl + s
+        if((event.metaKey && event.key === "s")||(event.ctrlKey && event.key === "s")){
+            event.preventDefault();
+            saveEvent($(this));
+        }
+    });
 
 });
 
