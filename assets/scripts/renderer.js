@@ -1,6 +1,6 @@
 
 // This class take a canlendar instance and render it to display as day diary. 
-class dayCalendarRenderer {
+class DayViewRenderer {
 
     constructor(calendar) {
         //DOM ELements

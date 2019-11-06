@@ -4,7 +4,7 @@ $(document).ready(function(){
 
     let secondLeftToNextHour;
     let currentMoment = new Calendar();
-    let renderer= new dayCalendarRenderer(currentMoment);
+    let renderer= new DayViewRenderer(currentMoment);
     
     /**
      * reset calendar view
