@@ -59,11 +59,11 @@ class DayViewRenderer {
         let timeClass = this.getTimeClass(hour);
         let displayHour = hour;
         //check if we need fix and how to display the time. 
-        let suffix = this._is12hTimeFormat ? this._SUFFIX_AM : "";
-        if (displayHour >= 12 && this._is12hTimeFormat) {
+        let suffix = this._is12hTimeFormat === true ? this._SUFFIX_AM : "";
+        if (displayHour >= 12 && this._is12hTimeFormat === true) {
             //afternoon, time suffix needs to be changed. 
             if (displayHour > 12) { displayHour -= 12; }
-            suffix = this._is12hTimeFormat ? this._SUFFIX_PM : "";
+            suffix = this._is12hTimeFormat === true ? this._SUFFIX_PM : "";
         }
         let description = "";
         if (hour in this._calendar.events) { description = this._calendar.events[hour]; }
