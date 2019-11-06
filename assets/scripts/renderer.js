@@ -35,7 +35,7 @@ class DayViewRenderer {
      * display date in p#currentDay 
      */
     displayDate() {
-        this._currentDay.text(this._calendar.getformattedMoment(this._DISPLAY_DATE_FORMAT));
+        this._currentDay.text(this._calendar.getFormattedMoment(this._DISPLAY_DATE_FORMAT));
     }
 
     /**

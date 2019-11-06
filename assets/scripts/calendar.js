@@ -17,7 +17,7 @@ class Calendar {
      * @param {string} format - moment.js format string
      * @returns {string} date(and time) formmatted as per format string.
      */
-    getformattedMoment(format) {
+    getFormattedMoment(format) {
         return this._moment.format(format);
     }
 
