@@ -13,7 +13,7 @@ class DayViewRenderer {
         //calendar data. 
         this._startHour = 9;
         this._endHour = 17;
-        this._timeFormat = "12h"; //24h or 12h time format. 
+        this._is12hTimeFormat = true; //24h or 12h time format. 
 
         //default strings
         this._SUFFIX_AM = "AM";
@@ -24,13 +24,6 @@ class DayViewRenderer {
         this._DISPLAY_DATE_FORMAT = "dddd, MMMM Do";
     }
 
-    /**
-     * check if current hour format is 12h or 24h
-     * @return {boolean}
-     */
-    get is12hTimeFormat() {
-        return this._timeFormat.localeCompare("12h") === 0;
-    }
     /**
      * display date in p#currentDay 
      */
@@ -66,11 +59,11 @@ class DayViewRenderer {
         let timeClass = this.getTimeClass(hour);
         let displayHour = hour;
         //check if we need fix and how to display the time. 
-        let suffix = this.is12hTimeFormat ? this._SUFFIX_AM : "";
-        if (displayHour >= 12 && this.is12hTimeFormat) {
+        let suffix = this._is12hTimeFormat ? this._SUFFIX_AM : "";
+        if (displayHour >= 12 && this._is12hTimeFormat) {
             //afternoon, time suffix needs to be changed. 
             if (displayHour > 12) { displayHour -= 12; }
-            suffix = this.is12hTimeFormat ? this._SUFFIX_PM : "";
+            suffix = this._is12hTimeFormat ? this._SUFFIX_PM : "";
         }
         let description = "";
         if (hour in this._calendar.events) { description = this._calendar.events[hour]; }
