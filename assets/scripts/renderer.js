@@ -1,5 +1,5 @@
 
-// This class take a canlendar instance and render it to display as day diary. 
+// This class take a calendar instance and render it to display as day diary. 
 class DayViewRenderer {
 
     constructor(calendar) {

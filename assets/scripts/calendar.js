@@ -15,9 +15,9 @@ class Calendar {
         this.resetCalendar(date);
     }
 
-    // ==============
-    //  GET functions
-    // ==============
+    // =================
+    //    GET functions
+    // =================
 
     /**
      * 
@@ -43,10 +43,19 @@ class Calendar {
         return moment().isSame(this._moment, 'day');
     }
 
+    /** 
+         * calculate the remaining time to next hour 
+         * @returns {number} time in millisecond
+         */
+    get getTimeLeft() {
+        //convert current minute, second and milliesecond to milliesecond
+        const current = (((this._moment.minute() * 60) + this._moment.second()) * 1000) + this._moment.millisecond();
+        return this._MILLISECONDS_PER_HOUR - current;
+    }
 
-    // ==============
-    //  Other functions
-    // ==============
+    // ==================
+    //   Other functions
+    // ==================
 
     /**
      *  if valid date is given, create moment with that date
@@ -89,7 +98,7 @@ class Calendar {
             return 1;
         }
     }
-    
+
     /** 
     * check if this calendar time is for past, present or future time
     * @param {number} time expected value 0 to 23
@@ -105,26 +114,16 @@ class Calendar {
             return isSameDay;
         }
         let givenTime = moment(time, "hour");
-        if(!givenTime.isValid()) {givenTime = moment();}
+        if (!givenTime.isValid()) { givenTime = moment(); }
         //if same day, check the time
-        if(this._moment.isSame(givenTime, "hour")){
+        if (this._moment.isSame(givenTime, "hour")) {
             return 0;
-        } else if(this._moment.isAfter(givenTime,"hour")){
+        } else if (this._moment.isAfter(givenTime, "hour")) {
             // if past hour
             return -1;
-        } else if (this._moment.isBefore(givenTime,"hour")){
-            return 1; 
+        } else if (this._moment.isBefore(givenTime, "hour")) {
+            return 1;
         }
-    }
-
-    /** 
-     * calculate the remaining time to next hour 
-     * @returns {number} time in millisecond
-     */
-    get getTimeLeft() {
-        //convert current minute, second and milliesecond to milliesecond
-        const current = (((this._moment.minute() * 60) + this._moment.second()) * 1000) + this._moment.millisecond();
-        return this._MILLISECONDS_PER_HOUR - current;
     }
 
 

@@ -2,7 +2,7 @@
 
 $(document).ready(function(){
 
-    let currentMoment = new Calendar();
+    const currentMoment = new Calendar();
     const renderer= new DayViewRenderer(currentMoment);
     let secondsLeft; 
     
