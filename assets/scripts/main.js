@@ -15,7 +15,7 @@ $(document).ready(function(){
         if(currentMoment.whenThisDate()===0 && moment().hour() > renderer._startHour && moment().hour() < renderer._endHour) {
             //TODO this is not working, yet. so 
             // if same day, re-render the page every hours
-            console.log("refresh until: ", currentMoment.getTimeLeft);
+            console.log("Next refresh in ", currentMoment.getTimeLeft);
             setTimeout(resetDisplay,currentMoment.getTimeLeft);
         }
     }
