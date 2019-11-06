@@ -10,13 +10,15 @@ class Calendar {
         this._LOCAL_STORAGE_KEY = "events";
         this._DEFAULT_TIME_FORMAT = "L";
         this._MILLISECONDS_PER_HOUR = 3600000;
-
+        this._events = {};
+        
         this.resetCalendar(date);
     }
 
     // ==============
     //  GET functions
     // ==============
+    
     /**
      * 
      * @param {string} format - moment.js format string
@@ -30,7 +32,7 @@ class Calendar {
      * @returns {array} array of events or empty array 
      */
     get events() {
-        return this._events;
+        return this._events[this._EVENTS_KEY] ? this._events[this._EVENTS_KEY] : {};
     }
 
     // ==============
@@ -42,7 +44,7 @@ class Calendar {
      *  Once moment is created, load related events
      * @param {string} date 
      */
-    resetCalendar(date) {
+    resetCalendar(date="") {
         let isValidDate = true;
         if (date !== "") {
             isValidDate = moment(date).isValid();
@@ -58,6 +60,8 @@ class Calendar {
             }
             this._moment = moment();
         }
+
+        this._EVENTS_KEY = this._moment.format(this._DEFAULT_TIME_FORMAT);
         //load the events for this day. 
         this.load();
     }
@@ -129,57 +133,33 @@ class Calendar {
                 }
      */
     /**
-     * load the related event data to this._events variable
+     * load the events from localstorage to this._events
      */
     load() {
-        this._events = this.getEventsFromStorage();
-        const key = this._moment.format(this._DEFAULT_TIME_FORMAT);
-        if (key in this._events) {
-            //if there is event data for this day, then get the events
-            this._events = this._events[key];
-        }
-    }
-    /**
-     * load event data from local storage
-     * @return {object} 
-     */
-    getEventsFromStorage() {
         if (localStorage[this._LOCAL_STORAGE_KEY]) {
             //if we have data
-            return JSON.parse(localStorage[this._LOCAL_STORAGE_KEY]);
+            this._events = JSON.parse(localStorage[this._LOCAL_STORAGE_KEY]);
         }
-        return {};
     }
 
     /**
      * update the local storage. 
      */
     save() {
-        let allEvents = this.getEventsFromStorage();
-        const key = this._moment.format(this._DEFAULT_TIME_FORMAT);
-
-        if (!$.isEmptyObject(this._events)) {
-            //only save this if we have data. 
-            allEvents[key] = this._events;
-        } else {
-            // if empty, delete the key
-            if (allEvents[key]) {
-                delete allEvents[key];
+        if($.isEmptyObject(this._events)){
+            //if this._events is empty. delete the localStorage data as well
+            if(localStorage[this._LOCAL_STORAGE_KEY]){
+                localStorage.removeItem(this._LOCAL_STORAGE_KEY);
             }
-        }
-        if ($.isEmptyObject(allEvents) && localStorage[this._LOCAL_STORAGE_KEY]) {
-            // if all events is empty object and we have data in localstorage, 
-            // delete local storage data. 
-            localStorage.removeItem(this._LOCAL_STORAGE_KEY);
             return;
         }
-        localStorage.setItem(this._LOCAL_STORAGE_KEY, JSON.stringify(allEvents));
+        localStorage.setItem(this._LOCAL_STORAGE_KEY, JSON.stringify(this._events));
     }
 
     /**
      * Save the event to the events object
      * 
-     * @param {number} time 
+     * @param {number} time value 00 to 23
      * @param {string} description 
      */
     saveEvent(time, description) {
@@ -198,15 +178,23 @@ class Calendar {
             return false;
         }
 
-        if (description === "") {
-            //if desciption is empty string, delete this property
-            delete this._events[`${time}`];
+        if(description === ""){
+            //if description is empty string, delete this property
+            delete this._events[this._EVENTS_KEY][`${time}`];
+            //check if there is any data left for this date
+            //if no data then delete the date as well
+            if($.isEmptyObject(this._events[this._EVENTS_KEY])){
+                delete this._events[this._EVENTS_KEY];
+            }
         } else {
-            // if description is not empty
-            this._events[`${time}`] = description;
+            //if there is a description, save it.
+            if(!this._events[this._EVENTS_KEY]){
+                this._events[this._EVENTS_KEY] = {};
+            }
+            this._events[this._EVENTS_KEY][`${time}`] = description;
         }
-
         this.save();
+
     }
 }
 
