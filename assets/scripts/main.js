@@ -2,8 +2,8 @@
 
 $(document).ready(function(){
 
-    let currentMoment = new Calendar();
-    let renderer= new DayViewRenderer(currentMoment);
+    const currentMoment = new Calendar();
+    const renderer= new DayViewRenderer(currentMoment);
     
     /**
      * reset calendar view
