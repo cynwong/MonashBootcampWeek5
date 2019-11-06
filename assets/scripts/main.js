@@ -4,6 +4,7 @@ $(document).ready(function(){
 
     let currentMoment = new Calendar();
     const renderer= new DayViewRenderer(currentMoment);
+    let secondsLeft; 
     
     /**
      * reset calendar view
@@ -19,12 +20,12 @@ $(document).ready(function(){
     }
 
     function setNextTimer (){
-        if(currentMoment.whenThisDate()===0 && moment().hour() > renderer._startHour && moment().hour() < renderer._endHour) {
-            //TODO see if this will change 
+        if(currentMoment.isToday === true && moment().hour() > renderer._startHour && moment().hour() < renderer._endHour) {
             // if same day, re-render the page every hours
             currentMoment.resetCalendar();
-            console.log("Next refresh in ", currentMoment.getTimeLeft);
-            setTimeout(resetDisplay,currentMoment.getTimeLeft);
+            secondsLeft = currentMoment.getTimeLeft;
+            console.log("Next refresh in ", secondsLeft);
+            setTimeout(resetDisplay,secondsLeft);
         }
     }
     
