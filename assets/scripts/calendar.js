@@ -70,9 +70,6 @@ class Calendar {
         this.load();
     }
 
-    isValidDateString(date) {
-        return moment(date).isValid();
-    }
     /** 
     * check if this calendar date is for past, present or future date
     * @returns {number} value -1, 0 or 1
