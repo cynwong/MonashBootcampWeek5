@@ -1,4 +1,4 @@
-# Unit 05 Third-Party APIs Homework: Day Planner
+Day Planner
 
 Click [here](https://cynwong.github.io/MonashBootcampWeek5/) for published site. 
 
