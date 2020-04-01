@@ -19,7 +19,7 @@ Poor time management can result in missed meetings and deadlines or create the a
 
 ## Instructions
 
-Each time block is color coded as shown in table.
+Each time block is colour coded as shown in the table.
 
 Time State | Color
 ---| ---
@@ -27,7 +27,7 @@ Past | Grey
 Present | Red
 Future | Green
 
-To enter an event, click on relevant time slot and type the description. Once done, user can save the event by:
+To enter an event, click on the relevant time slot and type the description. Once done, the user can save the event by:
 
     1. clicking on the save button next to it.
     2. pressing key combination ⌘ + s or ctrl + s.
